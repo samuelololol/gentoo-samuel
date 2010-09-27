@@ -7,8 +7,11 @@ pcmanx-gtk2-0.3.9-r1:
             which is in conflict with add-word function by GCIN.
 
     related pages:
+    MLS:
     http://forums.gentoo.tw/viewtopic.php?f=20&t=44817&p=58775#p58775
     http://mstar.pixnet.net/blog/post/22473583
+    Conflict fix:
+    http://groups.google.com.bz/group/pcmanx/browse_thread/thread/4fd267cb92199d5a/-?hl=zh-TW
 
 vim-7.2:(*not working right now) 
     Add USE flag, gdb
