@@ -1,0 +1,24 @@
+
+pcmanx-gtk2-0.3.9-r1:
+    Add 2 USE flag, mls & gcin
+   
+    * mls: MLS (Multi-Language Support) for PCManX
+    * gcin: enable a patch for PCManX-gtk2(MLS), to disalbe the Simple Mode of PCManX
+            which is in conflict with add-word function by GCIN.
+
+    related pages:
+    http://forums.gentoo.tw/viewtopic.php?f=20&t=44817&p=58775#p58775
+    http://mstar.pixnet.net/blog/post/22473583
+
+vim-7.2:(*not working right now) 
+    Add USE flag, gdb
+
+    * gdb: vim with vimgdb support
+
+
+    related pages:
+    http://samuelololol.blogspot.com/2009/10/vimgdb-ebuilds-for-gentoo.html
+    http://bugs.gentoo.org/show_bug.cgi?id=142593
+
+
+
