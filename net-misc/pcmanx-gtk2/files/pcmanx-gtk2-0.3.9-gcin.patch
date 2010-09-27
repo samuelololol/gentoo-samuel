@@ -1,0 +1,13 @@
+diff -Nur pcmanx-gtk2-0.3.9/src/mainframe.cpp pcmanx-gtk2-0.3.9-gcin/src/mainframe.cpp
+--- pcmanx-gtk2-0.3.9/src/mainframe.cpp	2010-09-26 22:24:52.666565461 +0800
++++ pcmanx-gtk2-0.3.9-gcin/src/mainframe.cpp	2010-09-26 22:26:59.355642846 +0800
+@@ -339,7 +339,8 @@
+     // Fullscreen Mode
+     {"fullscreen", NULL, _("F_ullscreen Mode"), "<ALT>Return", NULL, G_CALLBACK (CMainFrame::OnFullscreenMode)},
+     // Simple Mode
+-    {"simple", NULL, _("_Simple Mode"), "<Shift>Return", NULL, G_CALLBACK (CMainFrame::OnSimpleMode)}
++    {"simple", NULL, _("_Simple Mode"), NULL, NULL, NULL}
++    /*{"simple", NULL, _("_Simple Mode") , "<Shift>Return", NULL, G_CALLBACK (CMainFrame::OnSimpleMode)}*/
+   };
+ 
+ GtkToggleActionEntry CMainFrame::m_ToggleActionEntries[] =
