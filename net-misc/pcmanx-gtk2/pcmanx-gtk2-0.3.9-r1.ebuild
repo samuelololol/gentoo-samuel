@@ -21,6 +21,7 @@ RDEPEND="libnotify? ( x11-libs/libnotify )
 	nsplugin? ( >=www-client/mozilla-firefox-3.0 )
 	x11-libs/libXft
 	>=x11-libs/gtk+-2.4
+	gcin? ( app-i18n/gcin )
 "
 DEPEND="${RDEPEND}
 	dev-util/intltool
