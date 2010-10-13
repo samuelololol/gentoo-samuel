@@ -30,8 +30,16 @@ gyazolinux-9999:
 
     Original Website: http://gyazo.com/en
     Porting Author:   Eduardo Grajeda <tatofoo@gmail.com>
-    Project Page:     http://github.com/tatofoo/gyazo-linux/blob/master/COPYING
+    Project Page:     http://github.com/tatofoo/gyazo-linux
 
+musescore-0.9.6.2.ebuild:
+    MuseScore is a free cross-platform WYSIWYG music notation program, that offers a 
+    cost-effective alternative to professional programs such as Sibelius and Finale.
+    You can print beautifully engraved sheet music or save it as PDF or MIDI file.
+
+    Original Website: http://musescore.org/
+    Ebuilds written by: keenblade http://bugs.gentoo.org/show_bug.cgi?id=296023#c15
+                
 
 
 
