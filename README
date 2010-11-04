@@ -11,6 +11,9 @@ sssssssssssssamuelolololololololol      /\_ \         /\_ \     ___\//\ \     __
 
 gentoo-samuel overlay:                                       
 
+dev-python/pydb:
+    Add an USE='-emacs' flag in pydb-1.26.ebuild of Gentoo Official Overlay
+
 net-misc/gyazolinux/gyazolinux-9999:
     This is Linux version of Gyazo written in C by tatofoo stored on github.
 
