@@ -1,0 +1,24 @@
+diff -Nurbs screen-4.0.2.orig/ansi.c screen-4.0.2/ansi.c
+--- ansi.c.orig	Fri Dec  5 21:57:05 2003
++++ ansi.c	Fri Nov 25 18:18:23 2005
+@@ -816,7 +816,7 @@
+ 		c = 0xa4;
+ 	      else
+ 	        c &= 0x7f;
+-	      if (c < ' ' && font != 031)
++	      if (c < ' ' && font != 030 && font != 031)
+ 		goto tryagain;
+ #else
+ 	      c &= 0x7f;
+diff -Nurbs screen-4.0.2.orig/encoding.c screen-4.0.2/encoding.c
+--- encoding.c.orig	Mon Sep  8 22:25:23 2003
++++ encoding.c	Fri Nov 25 18:19:24 2005
+@@ -65,7 +65,7 @@
+   { "SJIS",		"BIBB01",	0,		1, 1, "\002I" },
+   { "eucKR",		"B\003BB01",	0,		1, 0, "\003" },
+   { "eucCN",		"B\001BB01",	0,		1, 0, "\001" },
+-  { "Big5",		"B\030BB01",	0,		1, 0, "\030" },
++  { "Big5",		"B\030BB01",	0,		1, 1, "\030" },
+   { "KOI8-R",		0,		0x80|'!',	0, 1, 0 },
+   { "CP1251",		0,		0x80|'?',	0, 1, 0 },
+   { "UTF-8",		0,		-1,		0, 0, 0 },
