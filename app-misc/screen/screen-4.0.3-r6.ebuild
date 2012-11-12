@@ -95,9 +95,9 @@ src_prepare() {
 
 	# Patch for correct cjk width length in utf8 locale
 	if use cjk ; then
-		epatch "${FILESDIR}"/screen-4.0.3-uao-patch/screen-4.0.3-uao.diff
-		epatch "${FILESDIR}"/screen-4.0.3-uao-patch/screen-4.0.3-cjkwidth-mhsin.diff
-		cp -f  "${FILESDIR}"/screen-4.0.3-uao-patch/screen-4.0.3-utf8encodings-18 "${S}"/utf8encodings/18
+		epatch "${FILESDIR}"/screen-4.0.3-uao.diff
+		epatch "${FILESDIR}"/screen-4.0.3-cjkwidth-mhsin.diff
+		cp -f  "${FILESDIR}"/screen-4.0.3-utf8encodings-18 "${S}"/utf8encodings/18
 	fi
 
 	# reconfigure
