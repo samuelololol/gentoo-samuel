@@ -4,12 +4,11 @@
 #!/bin/bash
 
 EAPI=4
-inherit eutils 
+inherit eutils
 
-DESCRIPTION="Powerfull Python and Django IDE similar to IntelliJ IDEA"
+DESCRIPTION="Powerfull Python and Django IDE similar to IntelliJ IDEA(Perfessional Version)"
 HOMEPAGE="http://jetbrains.com/pycharm/"
-SRC_URI="http://download.jetbrains.com/python/${P}.tar.gz"
-
+SRC_URI="http://download.jetbrains.com/python/pycharm-professional-${PV}.tar.gz"
 LICENSE="|| ( PyCharm-commercial
               PyCharm-academic 
 			  PyCharm-classroom
