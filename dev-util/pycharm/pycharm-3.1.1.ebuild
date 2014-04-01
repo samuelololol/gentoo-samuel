@@ -32,7 +32,7 @@ src_install() {
     fperms a+x "${dir}/bin/inspect.sh"   || die "fperms failed"
 
 	doicon "${dir}/bin/${PN}.png"
-    dosym /opt/${PN}/bin/${PN}.sh /usr/bin/${PN}
+    dosym /opt/${P}/bin/${PN}.sh /usr/bin/${PN}
 
     make_wrapper "${PN}" "/opt/${P}/bin/${PN}.sh"
     make_desktop_entry ${PN} "PyCharm ${PV}" ${PN} "Development;IDE"
