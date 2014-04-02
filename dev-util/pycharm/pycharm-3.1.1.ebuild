@@ -31,8 +31,9 @@ src_install() {
     fperms a+x "${dir}/bin/fsnotifier64" || die "fperms failed"
     fperms a+x "${dir}/bin/inspect.sh"   || die "fperms failed"
 
-	doicon "${dir}/bin/${PN}.png"
-    dosym /opt/${P}/bin/${PN}.sh /usr/bin/${PN}
+	#doicon "${dir}/bin/${PN}.png"
+    #dosym /opt/${P}/bin/${PN}.sh /usr/bin/${PN}
+    dosym ${dir}/bin/${PN}.sh /usr/bin/${PN}
 
     make_wrapper "${PN}" "/opt/${P}/bin/${PN}.sh"
     make_desktop_entry ${PN} "PyCharm ${PV}" ${PN} "Development;IDE"
