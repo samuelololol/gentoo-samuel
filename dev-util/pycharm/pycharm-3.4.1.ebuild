@@ -19,7 +19,7 @@ IUSE=""
 
 RESTRICT="strip"
 
-DEPEND=">=virtual/jdk-1.7"
+DEPEND=">=virtual/jdk-1.8"
 RDEPEND="${DEPEND}"
 
 src_install() {
