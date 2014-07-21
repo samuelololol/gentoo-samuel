@@ -45,6 +45,11 @@ RESTRICT="mirror"
 #	(has_version ">=net-libs/xulrunner-1.9" && use nsplugin ) && \
 #		epatch "${FILESDIR}/${PN}-0.3.8-xulrunner.patch"
 #}
+src_prepare() {
+	if [ "$PV"=="9999" ]; then
+		./autogen.sh
+	fi
+}
 
 src_configure() {
 	# better move this to pkg_setup phase?
