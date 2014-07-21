@@ -11,13 +11,14 @@ HOMEPAGE="http://pcmanx-gtk2.googlecode.com"
 if [ ${PV} == "9999" ]; then
 	inherit git-2
 	EGIT_REPO_URI="https://github.com/pcman-bbs/pcmanx.git"
+	EGIT_BRANCH="next-release"
 	SRC_URI=""
 else
 	inherit googlecode
 	SRC_URI="http://pcmanx-gtk2.googlecode.com/files/${P}.tar.xz"
 fi
 
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 SLOT="0"
 LICENSE="GPL-2"
 IUSE="+libnotify +proxy iplookup +wget"
