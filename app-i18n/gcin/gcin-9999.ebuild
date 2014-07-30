@@ -91,12 +91,12 @@ update_gtk_immodules() {
 }
 
 pkg_postinst() {
-	use gtk && update_gtk_immodules
+	use gtk3 && update_gtk_immodules
 	gnome2_icon_cache_update
 
 }
 
 pkg_postrm() {
-	use gtk && update_gtk_immodules
+	use gtk3 && update_gtk_immodules
 	gnome2_icon_cache_update
 }
