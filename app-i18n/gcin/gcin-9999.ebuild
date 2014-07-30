@@ -31,10 +31,11 @@ S=${WORKDIR}/${P/_/.}
 src_unpack() {
 	echo "Download from http://hyperrate.com/gcin-source/"
 	echo "Parsing the latest gcin.tar.xz"
-	wget ${SRC_URI_ROOT}/$(curl -vs http://hyperrate.com/gcin-source/ 2>&1 |\
-						   awk '{match($0,">gcin-(.)*.xz",a)}END{print a[0]}' |\
-						   awk '{match($0,"gcin-(.)*.xz",a)}END{print a[0]}')
-	unpack ${A}
+	src_file=$(curl -vs http://hyperrate.com/gcin-source/ 2>&1 |\
+			   awk '{match($0,">gcin-(.)*.xz",a)}END{print a[0]}' |\
+			   awk '{match($0,"gcin-(.)*.xz",a)}END{print a[0]}')
+	wget ${SRC_URI_ROOT}/${src_file}
+	unpack ${src_file}
 }
 
 src_prepare() {
