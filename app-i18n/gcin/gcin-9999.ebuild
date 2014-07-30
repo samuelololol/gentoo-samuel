@@ -26,20 +26,23 @@ DEPEND="${DEPEND}
 	sys-devel/gettext"
 
 RESTRICT="mirror"
-S=${WORKDIR}/${P/_/.}
+#S=${WORKDIR}/${P/_/.}
+S=${WORKDIR}
 
 src_unpack() {
 	echo "Download from http://hyperrate.com/gcin-source/"
-	echo "Parsing the latest gcin.tar.xz"
+	echo "Download the latest gcin.tar.xz..."
 	src_file=$(curl -vs http://hyperrate.com/gcin-source/ 2>&1 |\
 			   awk '{match($0,">gcin-(.)*.xz",a)}END{print a[0]}' |\
 			   awk '{match($0,"gcin-(.)*.xz",a)}END{print a[0]}')
 	wget ${SRC_URI_ROOT}/${src_file}
-	unpack ${src_file}
+	unpack ./${src_file}
 }
 
 src_prepare() {
-	echo "${P}" > ${S}/VERSION.gcin
+	tmp_P=$(ls ${WORKDIR} | awk '{print $1}' | head -n1)
+	S=${WORKDIR}/${tmp_P}
+	echo "${tmp_P}" > ${S}/VERSION.gcin
 	#epatch "${FILESDIR}/gcin-2.6.6_qtmoc_fix.patch"
 }
 
