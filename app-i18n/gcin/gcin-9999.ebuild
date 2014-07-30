@@ -7,23 +7,22 @@ inherit eutils toolchain-funcs flag-o-matic
 
 DESCRIPTION="Another Traditional Chinese IM."
 HOMEPAGE="http://hyperrate.com/dir.php?eid=67"
-#SRC_URI="http://www.csie.nctu.edu.tw/~cp76/gcin/download/${P/_/.}.tar.xz
-#	chinese-sound? ( http://www.csie.nctu.edu.tw/~cp76/gcin/download/ogg.tgz )"
 SRC_URI=""
 SRC_URI_ROOT="http://hyperrate.com/gcin-source"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE="filter-nobopomofo chinese-sound anthy chewing gtk3 qt4"
+IUSE="filter-nobopomofo anthy chewing gtk3 qt4"
 
 DEPEND=">=x11-libs/gtk+-2
+	dev-util/pkgconfig
+	sys-devel/gettext"
+DEPEND="${DEPEND}
+	anthy? ( >=app-i18n/anthy-9100 )
 	chewing? ( dev-libs/libchewing )
 	gtk3? ( x11-libs/gtk+:3 )
 	qt4? ( dev-qt/qtcore:4 dev-qt/qtgui )"
-DEPEND="${DEPEND}
-	dev-util/pkgconfig
-	sys-devel/gettext"
 
 RESTRICT="mirror"
 #S=${WORKDIR}/${P/_/.}
@@ -50,6 +49,7 @@ src_configure() {
 	econf --use_i18n=Y \
 		  --use_tsin=Y \
 		  --use_qt3=N \
+		  $(! use anthy && echo --use_anthy=N ) \
 		  $(! use chewing && echo --use_chewing=N ) \
 		  $(! use qt4 && echo --use_qt4=N ) \
 		  $(! use gtk3 && echo --use_gtk3=N )
@@ -69,11 +69,6 @@ src_install() {
 		exeinto /usr/share/gcin/script
 		doexe "${FILESDIR}"/nobopomofo/gcin-filter-nobopomofo || die
 		doenvd "${FILESDIR}"/nobopomofo/99gcin-filter-nobopomofo || die
-	fi
-
-	if use chinese-sound ; then
-		insinto /usr/share/${PN}
-		doins -r "${WORKDIR}"/ogg || die
 	fi
 }
 
