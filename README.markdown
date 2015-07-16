@@ -28,6 +28,10 @@ gentoo-samuel overlay:
 
     Original Website: [http://musescore.org/](http://musescore.org/)   
     Ebuilds written by: keenblade [http://bugs.gentoo.org/show_bug.cgi?id=296023#c15](http://bugs.gentoo.org/show_bug.cgi?id=296023#c15)  
+
+* x11-drivers/xf86-input-synaptics
+
+    Enable 3-finger-drag feature for synaptics driver of 1.8.1, porting based on 1.7.4 of [https://github.com/quadpixels/three-finger-dragging](https://github.com/quadpixels/three-finger-dragging).
                 
 
 <!-- {{{ -->
