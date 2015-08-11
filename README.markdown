@@ -13,6 +13,12 @@ gentoo-samuel overlay:
 * dev-python/pydb:
 
     Add an USE='-emacs' flag in pydb-1.26.ebuild of Gentoo Official Overlay
+
+* dev-util/ctags:
+
+    Use [Universal-ctags](https://github.com/universal-ctags/ctags)
+
+    Porject Page: [https://github.com/universal-ctags/ctags](https://github.com/universal-ctags/ctags)
     
 * net-misc/nicovideo-dl-0.0.20091209
 
