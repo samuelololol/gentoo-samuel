@@ -21,7 +21,7 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND} dev-util/ctags"
 
 
 src_prepare(){
