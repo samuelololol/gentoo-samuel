@@ -1,13 +1,13 @@
-<?xml version="1.0" ?>
- 
-<repositories version="1.0">
-    <repo priority="50" quality="experimental" status="unofficial">
-        <name>larry</name>
-        <description>gentoo-samuel overlay</description>
-        <homepage>https://github.com/samuelololol/gentoo-samuel</homepage>
-        <owner>
-            <email>samuelololol@gmail.com</email>
-        </owner>
-        <source type="git">https://github.com/samuelololol/gentoo-samuel.git</source>
-    </repo>
+<?xml version='1.0' encoding='UTF-8'?>
+<repositories encoding="UTF-8" version="1.1">
+  <repo priority="50" quality="experimental">
+    <name>gentoo-samuel</name>
+    <description>gentoo-samuel overlay</description>
+    <homepage>https://github.com/samuelololol/gentoo-samuel.git</homepage>
+    <owner>
+      <email>samuelololol@gmail.com</email>
+      <name>samuelololol</name>
+    </owner>
+    <source type="git">https://github.com/samuelololol/gentoo-samuel.git</source>
+  </repo>
 </repositories>
