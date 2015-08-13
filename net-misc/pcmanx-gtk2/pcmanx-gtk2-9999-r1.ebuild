@@ -47,7 +47,7 @@ RESTRICT="mirror"
 #		epatch "${FILESDIR}/${PN}-0.3.8-xulrunner.patch"
 #}
 src_prepare() {
-	if [ "$PV"=="9999" ]; then
+	if [ "$PV"=="9999-r1" ]; then
 		./autogen.sh
 	fi
 }
