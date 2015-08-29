@@ -97,7 +97,7 @@ diff -urNp old/src/synaptics.c 3f/src/synaptics.c
 -        if (touch)
 -            SetTapState(priv, TS_1, now);
 +        if (touch) {
-+            if(hw->numFingers == 3) SetTapState(priv, TS_3FINGER_START, now);
++            if(hw->numFingers == 3) SetTapState(priv, TS_DRAG, now);
 +            else SetTapState(priv, TS_1, now);
 +        }
          break;
