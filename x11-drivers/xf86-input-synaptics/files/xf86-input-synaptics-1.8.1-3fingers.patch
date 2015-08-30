@@ -1,6 +1,6 @@
-diff -Naur xf86-input-synaptics.ori/include/synaptics-properties.h xf86-input-synaptics/include/synaptics-properties.h
---- xf86-input-synaptics.ori/include/synaptics-properties.h	2015-08-30 06:26:49.693925521 +0800
-+++ xf86-input-synaptics/include/synaptics-properties.h	2015-08-30 06:27:05.971925338 +0800
+diff -urNp old/include/synaptics-properties.h 3f/include/synaptics-properties.h
+--- old/include/synaptics-properties.h	2014-09-10 14:16:39.000000000 +0800
++++ 3f/include/synaptics-properties.h	2015-05-29 03:33:00.065182088 +0800
 @@ -158,4 +158,10 @@
  /* 32 Bit Integer, 2 values, horizontal hysteresis, vertical hysteresis */
  #define SYNAPTICS_PROP_NOISE_CANCELLATION "Synaptics Noise Cancellation"
@@ -12,10 +12,10 @@ diff -Naur xf86-input-synaptics.ori/include/synaptics-properties.h xf86-input-sy
 +#define SYNAPTICS_PROP_THREE_FINGER_LOCKED_DRAGS_TIMEOUT "Synaptics Three-Finger Drags Timeout"
 +
  #endif                          /* _SYNAPTICS_PROPERTIES_H_ */
-diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/synaptics.c
---- xf86-input-synaptics.ori/src/synaptics.c	2015-08-30 06:26:49.694925521 +0800
-+++ xf86-input-synaptics/src/synaptics.c	2015-08-30 06:27:20.160925179 +0800
-@@ -769,6 +769,8 @@
+diff -urNp old/src/synaptics.c 3f/src/synaptics.c
+--- old/src/synaptics.c	2014-09-18 05:39:51.000000000 +0800
++++ 3f/src/synaptics.c	2015-05-29 03:33:00.179182094 +0800
+@@ -769,6 +769,8 @@ set_default_parameters(InputInfoPtr pInf
          xf86SetIntOption(opts, "HorizResolution", horizResolution);
      pars->resolution_vert =
          xf86SetIntOption(opts, "VertResolution", vertResolution);
@@ -24,7 +24,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
      if (pars->resolution_horiz <= 0) {
          xf86IDrvMsg(pInfo, X_ERROR,
                      "Invalid X resolution, using 1 instead.\n");
-@@ -1070,6 +1072,8 @@
+@@ -1070,6 +1072,8 @@ SynapticsReset(SynapticsPrivate * priv)
  
      for (i = 0; i < priv->num_slots; i++)
          priv->open_slots[i] = -1;
@@ -33,7 +33,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
  }
  
  static int
-@@ -1898,6 +1902,7 @@
+@@ -1898,6 +1902,7 @@ SetTapState(SynapticsPrivate * priv, enu
      case TS_START:
          priv->tap_button_state = TBS_BUTTON_UP;
          priv->tap_max_fingers = 0;
@@ -41,7 +41,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
          break;
      case TS_1:
          priv->tap_button_state = TBS_BUTTON_UP;
-@@ -1912,7 +1917,7 @@
+@@ -1912,7 +1917,7 @@ SetTapState(SynapticsPrivate * priv, enu
          priv->tap_button_state = TBS_BUTTON_DOWN;
          break;
      case TS_SINGLETAP:
@@ -50,7 +50,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
          priv->touch_on.millis = millis;
          break;
      default:
-@@ -1950,13 +1955,16 @@
+@@ -1950,13 +1955,16 @@ GetTimeOut(SynapticsPrivate * priv)
          return para->tap_time_2;
      case TS_4:
          return para->locked_drag_time;
@@ -68,7 +68,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
                      CARD32 now, enum FingerState finger,
                      Bool inside_active_area)
  {
-@@ -1972,13 +1980,20 @@
+@@ -1972,13 +1980,20 @@ HandleTapProcessing(SynapticsPrivate * p
  
      touch = finger >= FS_TOUCHED && priv->finger_state == FS_UNTOUCHED;
      release = finger == FS_UNTOUCHED && priv->finger_state >= FS_TOUCHED;
@@ -90,24 +90,15 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
      press = (hw->left || hw->right || hw->middle);
  
      if (touch) {
-@@ -1999,15 +2014,79 @@
+@@ -1999,15 +2014,70 @@ HandleTapProcessing(SynapticsPrivate * p
   restart:
      switch (priv->tap_state) {
      case TS_START:
 -        if (touch)
 -            SetTapState(priv, TS_1, now);
 +        if (touch) {
-+            if(hw->numFingers == 3)
-+            {
-+                SetMovingState(priv, MS_TOUCHPAD_RELATIVE, now);
-+                SetTapState(priv, TS_CLICKPAD_MOVE, now);
-+                //SetTapState(priv, TS_DRAG, now);
-+                //SetTapState(priv, TS_3FINGER_START, now);
-+                priv->has_seen_two_finger_scroll = FALSE;
-+                priv->tap_max_fingers = 3;
-+            }
-+            else
-+                SetTapState(priv, TS_1, now);
++            if(hw->numFingers == 3) SetTapState(priv, TS_DRAG, now);
++            else SetTapState(priv, TS_1, now);
 +        }
          break;
 -    case TS_1:
@@ -174,7 +165,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
              SetMovingState(priv, MS_TOUCHPAD_RELATIVE, now);
              SetTapState(priv, TS_MOVE, now);
              goto restart;
-@@ -2023,7 +2102,7 @@
+@@ -2023,7 +2093,7 @@ HandleTapProcessing(SynapticsPrivate * p
              edge = edge_detection(priv, priv->touch_on.x, priv->touch_on.y);
              SelectTapButton(priv, edge);
              /* Disable taps outside of the active area */
@@ -183,7 +174,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
                  priv->tap_button = 0;
              }
              SetTapState(priv, TS_2A, now);
-@@ -2034,6 +2113,22 @@
+@@ -2034,6 +2104,22 @@ HandleTapProcessing(SynapticsPrivate * p
              SetTapState(priv, TS_CLICKPAD_MOVE, now);
              goto restart;
          }
@@ -206,7 +197,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
          if (release) {
              SetMovingState(priv, MS_FALSE, now);
              SetTapState(priv, TS_START, now);
-@@ -2092,14 +2187,49 @@
+@@ -2092,14 +2178,49 @@ HandleTapProcessing(SynapticsPrivate * p
              SetTapState(priv, TS_CLICKPAD_MOVE, now);
              goto restart;
          }
@@ -257,7 +248,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
                  SetTapState(priv, TS_START, now);
              }
          }
-@@ -2107,6 +2237,9 @@
+@@ -2107,6 +2228,9 @@ HandleTapProcessing(SynapticsPrivate * p
      case TS_4:
          if (is_timeout) {
              SetTapState(priv, TS_START, now);
@@ -267,7 +258,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
              goto restart;
          }
          if (touch)
-@@ -2120,6 +2253,9 @@
+@@ -2120,6 +2244,9 @@ HandleTapProcessing(SynapticsPrivate * p
          else if (release) {
              SetMovingState(priv, MS_FALSE, now);
              SetTapState(priv, TS_START, now);
@@ -277,7 +268,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
          }
          break;
      case TS_CLICKPAD_MOVE:
-@@ -2130,14 +2266,27 @@
+@@ -2130,14 +2257,27 @@ HandleTapProcessing(SynapticsPrivate * p
          priv->horiz_scroll_twofinger_on = FALSE;
  
          /* Assume one touch is only for holding the clickpad button down */
@@ -306,7 +297,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
          break;
      }
  
-@@ -2385,7 +2534,8 @@
+@@ -2385,7 +2525,8 @@ HandleScrolling(SynapticsPrivate * priv,
  
      if (priv->synpara.touchpad_off == TOUCHPAD_TAP_OFF ||
          priv->synpara.touchpad_off == TOUCHPAD_OFF ||
@@ -316,7 +307,7 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
          stop_coasting(priv);
          priv->circ_scroll_on = FALSE;
          priv->vert_scroll_edge_on = FALSE;
-@@ -3174,7 +3324,7 @@
+@@ -3174,7 +3315,7 @@ HandleState(InputInfoPtr pInfo, struct S
  
      /* tap and drag detection. Needs to be performed even if the finger is in
       * the dead area to reset the state. */
@@ -325,10 +316,10 @@ diff -Naur xf86-input-synaptics.ori/src/synaptics.c xf86-input-synaptics/src/syn
      if (timeleft > 0)
          delay = MIN(delay, timeleft);
  
-diff -Naur xf86-input-synaptics.ori/src/synapticsstr.h xf86-input-synaptics/src/synapticsstr.h
---- xf86-input-synaptics.ori/src/synapticsstr.h	2015-08-30 06:26:49.694925521 +0800
-+++ xf86-input-synaptics/src/synapticsstr.h	2015-08-30 06:27:05.972925338 +0800
-@@ -132,6 +132,8 @@
+diff -urNp old/src/synapticsstr.h 3f/src/synapticsstr.h
+--- old/src/synapticsstr.h	2014-09-18 05:39:51.000000000 +0800
++++ 3f/src/synapticsstr.h	2015-05-29 03:33:00.158182093 +0800
+@@ -132,6 +132,8 @@ enum TapState {
      TS_4,                       /* After release when "locked drags" enabled */
      TS_5,                       /* After touch when "locked drags" enabled */
      TS_CLICKPAD_MOVE,           /* After left button press on a clickpad */
@@ -337,7 +328,7 @@ diff -Naur xf86-input-synaptics.ori/src/synapticsstr.h xf86-input-synaptics/src/
  };
  
  enum TapButtonState {
-@@ -226,6 +228,10 @@
+@@ -226,6 +228,10 @@ typedef struct _SynapticsParameters {
      int area_left_edge, area_right_edge, area_top_edge, area_bottom_edge;       /* area coordinates absolute */
      int softbutton_areas[4][4]; /* soft button area coordinates, 0 => right, 1 => middle , 2 => secondary right, 3 => secondary middle button */
      int hyst_x, hyst_y;         /* x and y width of hysteresis box */
@@ -348,7 +339,7 @@ diff -Naur xf86-input-synaptics.ori/src/synapticsstr.h xf86-input-synaptics/src/
  } SynapticsParameters;
  
  struct _SynapticsPrivateRec {
-@@ -274,6 +280,16 @@
+@@ -274,6 +280,16 @@ struct _SynapticsPrivateRec {
      int tap_button;             /* Which button started the tap processing */
      enum TapButtonState tap_button_state;       /* Current tap action */
      SynapticsMoveHistRec touch_on;      /* data when the touchpad is touched/released */
@@ -365,7 +356,7 @@ diff -Naur xf86-input-synaptics.ori/src/synapticsstr.h xf86-input-synaptics/src/
  
      enum MovingState moving_state;      /* previous moving state */
      Bool vert_scroll_edge_on;   /* Keeps track of currently active scroll modes */
-@@ -283,6 +299,10 @@
+@@ -283,6 +299,10 @@ struct _SynapticsPrivateRec {
      Bool circ_scroll_on;        /* Keeps track of currently active scroll modes */
      Bool circ_scroll_vert;      /* True: Generate vertical scroll events
                                     False: Generate horizontal events */
