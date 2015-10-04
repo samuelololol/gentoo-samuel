@@ -3,7 +3,7 @@
 # $Id$
 #!/bin/bash
 EAPI=5
-inherit git-2 autotools
+inherit git-r3 autotools
 
 DESCRIPTION="Go Versioning Packager"
 HOMEPAGE="https://github.com/pote/gvp"
@@ -19,7 +19,7 @@ DEPEND="dev-lang/go"
 RDEPEND="${DEPEND}"
 
 src_configure(){
-	./configure --prefix=/usr --infodir=/usr/share/info --datadir=/usr/share --sysconfdir=/etc --localstatedir=/var/lib --libdir=/usr/lib64
+	./configure --prefix=/usr/local
 }
 
 src_compile(){
@@ -31,7 +31,3 @@ src_install(){
     emake DEST="${D}" install || die
 }
 
-
-#TODO
-#postinst
-#postrm
