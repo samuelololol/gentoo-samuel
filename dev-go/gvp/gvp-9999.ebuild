@@ -31,5 +31,6 @@ DEPEND="dev-lang/go"
 RDEPEND="${DEPEND}"
 
 src_configure(){
-	./configure
+	strip-flags
+	econf
 }
