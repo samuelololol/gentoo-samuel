@@ -7,15 +7,16 @@ EAPI="4"
 inherit flag-o-matic eutils multilib autotools
 
 DESCRIPTION="PCMan is an easy-to-use telnet client mainly targets BBS users formerly writen by gtk2"
-HOMEPAGE="http://pcmanx-gtk2.googlecode.com"
-if [ ${PV} == "9999" ]; then
-	inherit git-2
-	EGIT_REPO_URI="https://github.com/pcman-bbs/pcmanx.git"
-	SRC_URI=""
-else
-	inherit googlecode
-	SRC_URI="http://pcmanx-gtk2.googlecode.com/files/${P}.tar.xz"
-fi
+HOMEPAGE="https://github.com/pcman-bbs/pcmanx.git"
+
+#if [ ${PV} == "9999" ]; then
+inherit git-2
+EGIT_REPO_URI="https://github.com/pcman-bbs/pcmanx.git"
+SRC_URI=""
+#else
+#	inherit googlecode
+#	SRC_URI="http://pcmanx-gtk2.googlecode.com/files/${P}.tar.xz"
+#fi
 
 KEYWORDS="amd64 x86"
 SLOT="0"
