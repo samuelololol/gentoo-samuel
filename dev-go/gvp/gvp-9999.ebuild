@@ -30,4 +30,8 @@ IUSE=""
 DEPEND="dev-lang/go"
 RDEPEND="${DEPEND}"
 
-
+src_configure(){
+	if [[ -x ${ECONF_SOURCE:-.}/configure ]]; then
+		econf
+	fi
+}
