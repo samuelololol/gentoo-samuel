@@ -3,7 +3,7 @@
 # $Id$
 #!/bin/bash
 EAPI=5
-inherit git-2 autotools
+inherit git-r3 autotools
 
 DESCRIPTION="Go Package Manager"
 HOMEPAGE="https://github.com/pote/gpm"
