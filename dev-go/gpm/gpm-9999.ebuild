@@ -19,7 +19,7 @@ DEPEND="dev-lang/go"
 RDEPEND="${DEPEND}"
 
 src_configure(){
-	./configure --prefix=/usr --infodir=/usr/share/info --datadir=/usr/share --sysconfdir=/etc --localstatedir=/var/lib --libdir=/usr/lib64
+	./configure --prefix=/usr/local
 }
 
 src_compile(){
@@ -28,10 +28,7 @@ src_compile(){
 
 src_install(){
 	export prefix=${D}
+	export DESTDIR=${D}
     emake DEST="${D}" install || die
 }
 
-
-#TODO
-#postinst
-#postrm
