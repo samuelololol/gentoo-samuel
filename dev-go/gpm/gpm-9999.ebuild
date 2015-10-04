@@ -5,15 +5,7 @@
 EAPI=5
 inherit git-2 autotools
 
-DESCRIPTION="gpm is a minimalist package manager for Go that leverages the power
-of the \`go get\` command and the underlying version control systems used by it to
-set your Go dependencies to desired versions, thus allowing easily reproducible
-builds in your Go projects.
-
-Go Package Manager makes no assumptions about your dependencies and supports
-Git, Bazaar and Mercurial hosted Go packages, for a smoother workflow be sure to
-check out \`gvp\` - the Go Versioning Packager which provides dependency isolation
-for your projects."
+DESCRIPTION="Go Package Manager"
 HOMEPAGE="https://github.com/pote/gpm"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/pote/gpm"
