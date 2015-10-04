@@ -12,9 +12,9 @@ inherit git-2 autotools
 DESCRIPTION="gvp stands for Go Versioning Packager and is based on gst a similar
 tool that provides dependency isolation for Ruby gems.
 
-The tool modifies your `GOPATH` to point to a local `.godeps/` directory so that you
-can keep the dependencies of your project isolated there, it also modifies `GOBIN`
-and `PATH` to include the new GOPATH/bin directory.
+The tool modifies your \`GOPATH\` to point to a local \`.godeps/\` directory so that you
+can keep the dependencies of your project isolated there, it also modifies \`GOBIN\`
+and \`PATH\` to include the new GOPATH/bin directory.
 
 gvp is a companion tool to gpm but both tools can be used independently from
 each other."
