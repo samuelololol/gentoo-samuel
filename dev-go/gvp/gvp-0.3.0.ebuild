@@ -9,7 +9,6 @@ DESCRIPTION="Go Versioning Packager"
 HOMEPAGE="https://github.com/pote/gvp"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/pote/gvp"
-#EGIT_COMMIT="9bcab74540a9496480190594c605fd46c7d6d76b"
 EGIT_COMMIT="v${PV}"
 
 LICENSE="MIT"
