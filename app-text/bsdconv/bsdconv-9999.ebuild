@@ -27,5 +27,5 @@ src_compile() {
 }
 
 src_install(){
-	emake install || die
+	emake DEST="${D}" install || die
 }
