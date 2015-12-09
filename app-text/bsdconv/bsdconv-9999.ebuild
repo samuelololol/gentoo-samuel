@@ -13,6 +13,8 @@ DESCRIPTION="BSD licensed charset/encoding converter library with more functiona
 HOMEPAGE="https://github.com/buganini/bsdconv"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/buganini/bsdconv"
+EGIT_COMMIT="ccff64083df77298128fb156cd870a8bc0cb5bde"
+
 
 LICENSE="BSD-2"
 SLOT="0"
