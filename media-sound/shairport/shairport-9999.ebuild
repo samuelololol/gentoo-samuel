@@ -41,6 +41,8 @@ src_install(){
 	export DESTDIR=${D}
     emake DEST="${D}" install || die
 	
-	doinitd ${FILESDIR}/init.d/shairport
-	doconfd ${FILESDIR}/conf.d/shairport
+	#doinitd ${FILESDIR}/init.d/shairport
+	#doconfd ${FILESDIR}/conf.d/shairport
+	doinitd scripts/shairport-sync
+	doconfd scripts/shairport-sync.conf
 }
