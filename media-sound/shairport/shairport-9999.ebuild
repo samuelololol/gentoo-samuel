@@ -44,5 +44,6 @@ src_install(){
 	#doinitd ${FILESDIR}/init.d/shairport
 	#doconfd ${FILESDIR}/conf.d/shairport
 	doinitd scripts/shairport-sync
-	doconfd scripts/shairport-sync.conf
+	doconfd ${FILESDIR}/conf.d/shairport-sync.conf
+	#doconfd scripts/shairport-sync.conf
 }
