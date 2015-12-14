@@ -20,7 +20,7 @@ IUSE="avahi pulseaudio ssl metadata"
 
 DEPEND="dev-libs/libconfig \
 	    avahi? ( net-dns/avahi ) \
-	    ssl? ( net-libs/openssl ) \
+	    ssl? ( dev-libs/openssl ) \
 		pulseaudio? ( media-sound/pulseaudio )"
 RDEPEND="${DEPEND}"
 
