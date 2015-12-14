@@ -20,8 +20,8 @@ IUSE="avahi pulseaudio ssl metadata"
 
 DEPEND="dev-libs/libconfig \
 	    avahi? ( net-dns/avahi ) \
-		pulseaudio? ( media-sound/pulseaudio ) \
-		ssl? ( dev-libs/openssl )"
+	    ssl? ( net-libs/openssl ) \
+		pulseaudio? ( media-sound/pulseaudio )"
 RDEPEND="${DEPEND}"
 
 src_prepare(){
@@ -30,8 +30,9 @@ src_prepare(){
 
 src_configure(){
 	econf --with-alsa \
-	$(! use avahi && echo --with-avahi ) \
-	$(! use ssl && echo --with_ssl=openssl ) 
+	$( use avahi && echo --with-avahi ) \
+	$( use metadata && echo --with-metadata ) \
+	$( use ssl && echo --with-ssl=openssl )
 }
 
 src_install(){
