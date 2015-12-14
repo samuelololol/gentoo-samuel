@@ -23,6 +23,11 @@ DEPEND="dev-libs/libconfig \
 		pulseaudio? ( media-sound/pulseaudio ) \
 		ssl? ( dev-libs/openssl )"
 RDEPEND="${DEPEND}"
+
+src_prepare(){
+	eautoreconf -i -f
+}
+
 src_configure(){
 	econf --with-alsa \
 	$(! use avahi && echo --with_avahi ) \
