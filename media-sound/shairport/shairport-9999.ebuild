@@ -38,8 +38,9 @@ src_configure(){
 src_install(){
 	#emake PREFIX="${D}" install
 	export prefix=${D}
+	export DESTDIR=${D}
     emake DEST="${D}" install || die
-		
+	
 	doinitd ${FILESDIR}/init.d/shairport
 	doconfd ${FILESDIR}/conf.d/shairport
 }
