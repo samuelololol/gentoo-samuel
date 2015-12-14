@@ -29,7 +29,7 @@ src_prepare(){
 }
 
 src_configure(){
-	econf --with-alsa --with-piddir \
+	econf --with-alsa --with-piddir=/var/run \
 	$( use avahi && echo --with-avahi ) \
 	$( use metadata && echo --with-metadata ) \
 	$( use ssl && echo --with-ssl=openssl )
