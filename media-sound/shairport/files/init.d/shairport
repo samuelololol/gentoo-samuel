@@ -1,6 +1,6 @@
 #!/sbin/runscript
 
-EXEC=/usr/local/bin/shairport
+EXEC=/usr/bin/shairport-sync
 
 . /etc/conf.d/shairport
 
