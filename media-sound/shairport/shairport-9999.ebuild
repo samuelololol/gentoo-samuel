@@ -30,7 +30,7 @@ src_prepare(){
 
 src_configure(){
 	econf --with-alsa \
-	$(! use avahi && echo --with_avahi ) \
+	$(! use avahi && echo --with-avahi ) \
 	$(! use ssl && echo --with_ssl=openssl ) 
 }
 
