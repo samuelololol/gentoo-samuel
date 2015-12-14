@@ -11,7 +11,8 @@ inherit git-r3 autotools
 
 DESCRIPTION="Shairport Sync is an AirPlay audio player"
 HOMEPAGE="https://github.com/mikebrady/shairport-sync"
-EGIT_REPO_URI="https://github.com/mikebrady/shairport-sync"
+#EGIT_REPO_URI="https://github.com/mikebrady/shairport-sync"
+EGIT_REPO_URI="https://github.com/abrasive/shairport.git"
 
 LICENSE=""
 SLOT="0"
@@ -24,26 +25,25 @@ DEPEND="dev-libs/libconfig \
 		pulseaudio? ( media-sound/pulseaudio )"
 RDEPEND="${DEPEND}"
 
-src_prepare(){
-	eautoreconf -i -f
-}
-
-src_configure(){
-	econf --with-alsa --with-piddir=/var/run \
-	$( use avahi && echo --with-avahi ) \
-	$( use metadata && echo --with-metadata ) \
-	$( use ssl && echo --with-ssl=openssl )
-}
+#src_prepare(){
+#	eautoreconf -i -f
+#}
+#
+#src_configure(){
+#	econf --with-alsa --with-piddir=/var/run \
+#	$( use avahi && echo --with-avahi ) \
+#	$( use metadata && echo --with-metadata ) \
+#	$( use ssl && echo --with-ssl=openssl )
+#}
 
 src_install(){
-	#emake PREFIX="${D}" install
-	export prefix=${D}
-	export DESTDIR=${D}
-    emake DEST="${D}" install || die
+	emake PREFIX="${D}" install
+	#export prefix=${D}
+	#export DESTDIR=${D}
+    #emake DEST="${D}" install || die
 	
-	#doinitd ${FILESDIR}/init.d/shairport
-	#doconfd ${FILESDIR}/conf.d/shairport
-	doinitd scripts/shairport-sync
-	doconfd ${FILESDIR}/conf.d/shairport-sync.conf
+	doinitd ${FILESDIR}/init.d/shairport
+	doconfd ${FILESDIR}/conf.d/shairport
+	#doinitd scripts/shairport-sync
 	#doconfd scripts/shairport-sync.conf
 }
