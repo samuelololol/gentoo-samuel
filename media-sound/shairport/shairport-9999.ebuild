@@ -39,7 +39,7 @@ RDEPEND="${DEPEND}"
 
 src_install(){
 	#emake PREFIX="/usr/local${D}" install
-	export prefix=${D}
+	export PREFIX=${D}
 	export DESTDIR=${D}
     emake DEST="${D}" install || die
 	
