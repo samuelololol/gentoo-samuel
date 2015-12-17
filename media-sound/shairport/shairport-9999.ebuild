@@ -10,9 +10,7 @@ EAPI=5
 inherit git-r3 autotools
 
 DESCRIPTION="Shairport Sync is an AirPlay audio player"
-HOMEPAGE="https://github.com/mikebrady/shairport-sync"
-#EGIT_REPO_URI="https://github.com/mikebrady/shairport-sync"
-#EGIT_REPO_URI="https://github.com/abrasive/shairport.git"
+HOMEPAGE="https://github.com/samuelololol/shairport.git"
 EGIT_REPO_URI="https://github.com/samuelololol/shairport.git"
 
 LICENSE=""
