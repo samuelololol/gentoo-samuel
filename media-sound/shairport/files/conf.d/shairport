@@ -1,25 +1,31 @@
 # /etc/conf.d/shairport: config file for /etc/init.d/shairport
 
+# The shairport command executed by the user
+SA_USER=samuel
+
 # The pidfile for the shairport daemon (--pidfile=$PIDFILE)
-#PIDFILE=/var/run/shairport.pid
+PIDFILE=/var/run/shairport.pid
 
 # The name shairport advertizes (-a $NAME)
-#NAME=myairplay
+NAME=samuel
+# Password use by this air port device
+PASSWORD=verysket
 
 # How full the buffer must be before audio output starts (-b $BUF_FILL)
 #BUF_FILL=100
 
 # The log file (for stdout, --log $LOGFILE)
-LOGFILE=/var/log/shairport.log
+LOGFILE=/tmp/shairport.log
 
 # The error file (for stderr, --error $ERRFILE)
-#ERRFILE=/var/log/shairport.err
+ERRFILE=/tmp/shairport.log
 
 # The backend to use (--output=$BACKEND -- $BACKEND_OPTS)
 # Shairport's help (shairport -h) shows all of the available
 # backends and their options
-#BACKEND=alsa
+BACKEND="pulse"
 #BACKEND_OPTS="-d default -t software ...some other opts..."
+BACKEND_OPTS="-s combined"
 
 # Force the use of MDNS to advertize the service
 # Shairport's help (shairport -h) shows all of the available mDNS backends
