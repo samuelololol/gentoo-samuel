@@ -18,7 +18,7 @@ PASSWORD=verysket
 LOGFILE=/tmp/shairport.log
 
 # The error file (for stderr, --error $ERRFILE)
-ERRFILE=/tmp/shairport.log
+#ERRFILE=/tmp/shairport.log
 
 # The backend to use (--output=$BACKEND -- $BACKEND_OPTS)
 # Shairport's help (shairport -h) shows all of the available

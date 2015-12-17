@@ -26,22 +26,9 @@ DEPEND="dev-libs/libconfig \
 		pulseaudio? ( media-sound/pulseaudio )"
 RDEPEND="${DEPEND}"
 
-#src_prepare(){
-#	eautoreconf -i -f
-#}
-#
-#src_configure(){
-#	econf --with-alsa --with-piddir=/var/run \
-#	$( use avahi && echo --with-avahi ) \
-#	$( use metadata && echo --with-metadata ) \
-#	$( use ssl && echo --with-ssl=openssl )
-#}
-
 src_install(){
-	#emake PREFIX="/usr/local${D}" install
-	export PREFIX=${D}
-	#export DESTDIR=${PREFIX}${D}
-    emake PREFIX="${D}" install || die
+	prefix=$(D:bin=usr/local/bin)
+    emake PREFIX=${D} DESTDIR=/usr/local install || die
 	
 	doinitd ${FILESDIR}/init.d/shairport
 	doconfd ${FILESDIR}/conf.d/shairport
