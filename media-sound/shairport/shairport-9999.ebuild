@@ -40,8 +40,8 @@ RDEPEND="${DEPEND}"
 src_install(){
 	#emake PREFIX="/usr/local${D}" install
 	#export PREFIX=${D}
-	export DESTDIR=${PREFIX}${D}
-    emake DEST="${DESTDIR}" install || die
+	#export DESTDIR=${PREFIX}${D}
+    emake DEST="${D}" PREFIX="${D}" install || die
 	
 	doinitd ${FILESDIR}/init.d/shairport
 	doconfd ${FILESDIR}/conf.d/shairport
