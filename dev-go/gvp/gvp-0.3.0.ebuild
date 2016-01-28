@@ -8,7 +8,7 @@ inherit git-r3 autotools
 DESCRIPTION="Go Versioning Packager"
 HOMEPAGE="https://github.com/pote/gvp"
 SRC_URI=""
-EGIT_REPO_URI="https://github.com/pote/gvp"
+EGIT_REPO_URI="https://github.com/samuelololol/gvp"
 EGIT_COMMIT="v${PV}"
 
 LICENSE="MIT"
@@ -28,7 +28,8 @@ src_compile(){
 }
 
 src_install(){
-	mkdir -p ${D}/usr/local/bin
-	cp ${S}/bin/gvp ${D}/usr/local/bin
+	export prefix=${D}
+	export DESTDIR=${D}
+    emake DEST="${D}" install || die
 }
 
