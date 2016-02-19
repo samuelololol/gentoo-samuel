@@ -28,6 +28,7 @@ src_compile(){
 
 src_install(){
 	export prefix=${D}
+	export DESTDIR=${D}
     emake DEST="${D}" install || die
 }
 
