@@ -8,7 +8,7 @@ inherit git-r3 autotools
 DESCRIPTION="Go Versioning Packager"
 HOMEPAGE="https://github.com/pote/gvp"
 SRC_URI=""
-EGIT_REPO_URI="https://github.com/pote/gvp"
+EGIT_REPO_URI="https://github.com/samuelololol/gvp"
 
 LICENSE="MIT"
 SLOT="0"
