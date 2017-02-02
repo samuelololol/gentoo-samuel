@@ -24,3 +24,4 @@ gentoo-samuel overlay:
 
     Project Page: [http://sourceforge.jp/projects/nicovideo-dl/](http://sourceforge.jp/projects/nicovideo-dl/)
 <!-- }}} vim:fdm=marker
+-->
