@@ -15,13 +15,6 @@ gentoo-samuel overlay:
     Enable 3-finger-drag feature for synaptics driver of 1.8.1, porting based on 1.7.4 of
     [https://github.com/quadpixels/three-finger-dragging](https://github.com/quadpixels/three-finger-dragging).
 
-<!-- {{{
-===========================================
+* app-i18n/gcin
 
-* net-misc/nicovideo-dl-0.0.20091209
-
-    Download nicodoga video in console by a python script
-
-    Project Page: [http://sourceforge.jp/projects/nicovideo-dl/](http://sourceforge.jp/projects/nicovideo-dl/)
-<!-- }}} vim:fdm=marker
--->
+    The Latest gcin ebuild, source from: http://hyperrate.com/gcin-source/
