@@ -3,56 +3,48 @@
 # $Header: $
 
 EAPI=5
+
 inherit eutils toolchain-funcs flag-o-matic
 
 DESCRIPTION="Another Traditional Chinese IM."
 HOMEPAGE="http://hyperrate.com/dir.php?eid=67"
-SRC_URI=""
-SRC_URI_ROOT="http://hyperrate.com/gcin-source"
+SRC_URI="http://hyperrate.com/gcin-source/gcin-${PV}.tar.xz
+	chinese-sound? ( http://ftp.twaren.net/local-distfiles/gcin/ogg.tgz )"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE="filter-nobopomofo anthy chewing gtk3 qt4"
+IUSE="filter-nobopomofo chinese-sound anthy chewing gtk3 qt4 qt5"
 
 DEPEND=">=x11-libs/gtk+-2
-	dev-util/pkgconfig
-	sys-devel/gettext"
-DEPEND="${DEPEND}
 	anthy? ( >=app-i18n/anthy-9100 )
 	chewing? ( dev-libs/libchewing )
 	gtk3? ( x11-libs/gtk+:3 )
-	qt4? ( dev-qt/qtcore:4 dev-qt/qtgui )"
+	qt4? ( dev-qt/qtcore:4 dev-qt/qtgui )
+	qt5? ( dev-qt/qtcore:5 dev-qt/qtgui )"
+RDEPEND="${DEPEND}
+	chinese-sound? ( media-sound/vorbis-tools[ogg123] )"
+DEPEND="${DEPEND}
+	dev-util/pkgconfig
+	sys-devel/gettext"
 
 RESTRICT="mirror"
-#S=${WORKDIR}/${P/_/.}
-S=${WORKDIR}
-
-src_unpack() {
-	echo "Download from http://hyperrate.com/gcin-source/"
-	echo "Download the latest gcin.tar.xz..."
-	src_file=$(curl -vs http://hyperrate.com/gcin-source/ 2>&1 |\
-			   awk '{match($0,">gcin-(.)*.xz",a)}END{print a[0]}' |\
-			   awk '{match($0,"gcin-(.)*.xz",a)}END{print a[0]}')
-	wget ${SRC_URI_ROOT}/${src_file}
-	unpack ./${src_file}
-}
+S=${WORKDIR}/${P/_/.}
 
 src_prepare() {
-	tmp_P=$(ls ${WORKDIR} | awk '{print $1}' | head -n1)
-	S=${WORKDIR}/${tmp_P}
-	echo "${tmp_P}" > ${S}/VERSION.gcin
+	echo "${P}" > ${S}/VERSION.gcin
 	#epatch "${FILESDIR}/gcin-2.6.6_qtmoc_fix.patch"
 }
 
 src_configure() {
 	econf --use_i18n=Y \
-		  --use_tsin=Y \
-		  --use_qt3=N \
-		  $(! use anthy && echo --use_anthy=N ) \
-		  $(! use chewing && echo --use_chewing=N ) \
-		  $(! use qt4 && echo --use_qt4=N ) \
-		  $(! use gtk3 && echo --use_gtk3=N )
+		--use_tsin=Y \
+		--use_qt3=N \
+		$(! use anthy && echo --use_anthy=N ) \
+		$(! use chewing && echo --use_chewing=N ) \
+		$(! use qt4 && echo --use_qt4=N ) \
+		$(! use qt5 && echo --use_qt5=N ) \
+		$(! use gtk3 && echo --use_gtk3=N )
 }
 
 src_compile() {
@@ -69,6 +61,11 @@ src_install() {
 		exeinto /usr/share/gcin/script
 		doexe "${FILESDIR}"/nobopomofo/gcin-filter-nobopomofo || die
 		doenvd "${FILESDIR}"/nobopomofo/99gcin-filter-nobopomofo || die
+	fi
+
+	if use chinese-sound ; then
+		insinto /usr/share/${PN}
+		doins -r "${WORKDIR}"/ogg || die
 	fi
 }
 
@@ -87,11 +84,20 @@ update_gtk_immodules() {
 
 pkg_postinst() {
 	use gtk3 && update_gtk_immodules
-	gnome2_icon_cache_update
-
+	if [ -x "/usr/bin/gtk-query-immodules-2.0" ] ; then
+		/usr/bin/gtk-query-immodules-2.0 --update-cache
+	fi
+	if [ -x "/usr/bin/gtk-query-immodules-3.0" ] ; then
+		/usr/bin/gtk-query-immodules-3.0 --update-cache
+	fi
 }
 
 pkg_postrm() {
 	use gtk3 && update_gtk_immodules
-	gnome2_icon_cache_update
+	if [ -x "/usr/bin/gtk-query-immodules-2.0" ] ; then
+		/usr/bin/gtk-query-immodules-2.0 --update-cache
+	fi
+	if [ -x "/usr/bin/gtk-query-immodules-3.0" ] ; then
+		/usr/bin/gtk-query-immodules-3.0 --update-cache
+	fi
 }
