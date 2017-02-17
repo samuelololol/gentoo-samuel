@@ -56,7 +56,9 @@ src_compile() {
 }
 
 src_test() {
+	vecho ">>>  ${CATEGORY}/${PF}: make check-local"
 	emake check-local || die "emake check-local failed"
+	vecho ">>>  ${CATEGORY}/${PF}: make check"
 	emake check || die "emake check failed"
 }
 
