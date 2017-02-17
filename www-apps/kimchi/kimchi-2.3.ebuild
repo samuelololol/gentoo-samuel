@@ -32,7 +32,7 @@ DEPEND="
 	dev-python/python-ethtool
 	dev-python/libvirt-python
 	>=dev-lang/python-2.4
-	virtual/python-imaging
+	dev-python/pillow
 	www-servers/nginx"
 RDEPEND="${DEPEND}"
 
