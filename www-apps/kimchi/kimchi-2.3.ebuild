@@ -55,6 +55,11 @@ src_compile() {
 	emake
 }
 
+src_test() {
+	emake check-local || die "emake check-local failed"
+	emake check || die "emake check failed"
+}
+
 src_install() {
 	keepdir "/var/lib/${PN}"
 	dodir "/var/run/${PN}"
