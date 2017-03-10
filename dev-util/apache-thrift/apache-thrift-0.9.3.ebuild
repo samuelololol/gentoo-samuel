@@ -65,7 +65,9 @@ S="${WORKDIR}/thrift-${PV}"
 
 src_prepare() {
     cd "${S}"
-    epatch "${FILESDIR}/thrift-0.9-mvn-path-fix.patch"
+	if use java ; then
+		epatch "${FILESDIR}/thrift-0.9-mvn-path-fix.patch"
+	fi
 }
 
 pkg_setup() {
