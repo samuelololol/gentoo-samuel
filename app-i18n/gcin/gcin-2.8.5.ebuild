@@ -33,7 +33,7 @@ S=${WORKDIR}/${P/_/.}
 
 src_prepare() {
 	echo "${P}" > ${S}/VERSION.gcin
-	#epatch "${FILESDIR}/gcin-2.6.6_qtmoc_fix.patch"
+	epatch "${FILESDIR}/gcin-2.8.5_gentoo.patch"
 }
 
 src_configure() {

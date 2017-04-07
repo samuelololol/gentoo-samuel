@@ -1,0 +1,35 @@
+diff -Naur gcin-2.8.5/qt5-im/Makefile gcin-2.8.5.patch/qt5-im/Makefile
+--- gcin-2.8.5/qt5-im/Makefile	2015-10-17 10:08:40.000000000 +0800
++++ gcin-2.8.5.patch/qt5-im/Makefile	2017-04-07 21:44:49.741815765 +0800
+@@ -3,7 +3,8 @@
+ QTIM=$(QT)/plugins/platforminputcontexts
+ IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
+ 
+-INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport QtDBus --cflags`
++#INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport QtDBus --cflags`
++INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui Qt5DBus --cflags`
+ MODVERSION=`pkg-config --modversion Qt5Gui`
+ QTINC=`pkg-config --variable=includedir Qt5Gui`
+ INCS+=-I$(QTINC)/QtGui/$(MODVERSION)/QtGui
+@@ -12,7 +13,8 @@
+ CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
+ OBJS= moc_gcin-qt5.o gcin-qt5.o gcin-imcontext-qt5.o moc_qgcinplatforminputcontext.o
+ .SUFFIXES:	.c .cpp .a .so .E .h
+-LDFLAGS=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport --libs`
++#LDFLAGS=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport --libs`
++LDFLAGS=-L../im-client -lgcin-im-client `pkg-config Qt5Core Qt5Gui --libs`
+ 
+ GCIN_QT5 = libgcinplatforminputcontextplugin.so
+ 
+diff -Naur gcin-2.8.5/qt5-im/gcin-qt5.h gcin-2.8.5.patch/qt5-im/gcin-qt5.h
+--- gcin-2.8.5/qt5-im/gcin-qt5.h	2017-02-01 22:27:57.000000000 +0800
++++ gcin-2.8.5.patch/qt5-im/gcin-qt5.h	2017-04-07 21:01:42.040166487 +0800
+@@ -9,7 +9,7 @@
+ {
+     Q_OBJECT
+ public:
+-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformInputContextFactoryInterface" FILE "gcin.json")
++    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformInputContextFactoryInterface.5.1" FILE "gcin.json")
+     QStringList keys() const;
+     QGcinPlatformInputContext *create(const QString& system, const QStringList& paramList);
+ };
