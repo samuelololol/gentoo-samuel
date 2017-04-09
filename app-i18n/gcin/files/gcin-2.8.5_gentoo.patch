@@ -1,14 +1,14 @@
 diff -Naur gcin-2.8.5/configure gcin-2.8.5.patch/configure
 --- gcin-2.8.5/configure	2016-10-20 22:34:49.000000000 +0800
-+++ gcin-2.8.5.patch/configure	2017-04-09 21:24:53.266476484 +0800
++++ gcin-2.8.5.patch/configure	2017-04-09 21:39:16.052690172 +0800
 @@ -252,7 +252,10 @@
  
  
  QT5_IM='N'
 -QT5_IM_DIR=/usr/$LIB/qt5/plugins/platforminputcontexts
 +#QT5_IM_DIR=/usr/$LIB/qt5/plugins/platforminputcontexts
-+QT5_IM_DIR:=`pkg-config --variable=host_bins Qt5Core`
-+QT5_IM_DIR:=$(QT5_IM_DIR)/../plugins/platforminputcontexts`
++QT5_IM_DIR=`pkg-config --variable=host_bins Qt5Core`
++QT5_IM_DIR=$(QT5_IM_DIR)/../plugins/platforminputcontexts`
 +
  echo "testing if you have qt5 support"
  pkg-config --libs Qt5Core Qt5Gui > /dev/null 2> /dev/null
