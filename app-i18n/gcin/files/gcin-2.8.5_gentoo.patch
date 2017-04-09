@@ -1,9 +1,50 @@
+diff -Naur gcin-2.8.5/configure gcin-2.8.5.patch/configure
+--- gcin-2.8.5/configure	2016-10-20 22:34:49.000000000 +0800
++++ gcin-2.8.5.patch/configure	2017-04-09 21:24:53.266476484 +0800
+@@ -252,7 +252,10 @@
+ 
+ 
+ QT5_IM='N'
+-QT5_IM_DIR=/usr/$LIB/qt5/plugins/platforminputcontexts
++#QT5_IM_DIR=/usr/$LIB/qt5/plugins/platforminputcontexts
++QT5_IM_DIR:=`pkg-config --variable=host_bins Qt5Core`
++QT5_IM_DIR:=$(QT5_IM_DIR)/../plugins/platforminputcontexts`
++
+ echo "testing if you have qt5 support"
+ pkg-config --libs Qt5Core Qt5Gui > /dev/null 2> /dev/null
+ if [ $? = 0 ]; then
+@@ -345,7 +348,7 @@
+     cp gcin-qt5.h.in gcin-qt5.h
+   fi
+   cd ..
+-  for i in /usr/share/qt5/bin/moc /usr/lib/qt5/bin/moc /usr/lib/x86_64-linux-gnu/qt5/bin/moc /usr/lib/i386-linux-gnu/qt5/bin/moc /usr/lib64/qt5/bin/moc /usr/bin/moc
++  for i in /usr/lib64/qt5/bin/moc /usr/share/qt5/bin/moc /usr/lib/qt5/bin/moc /usr/lib/x86_64-linux-gnu/qt5/bin/moc /usr/lib/i386-linux-gnu/qt5/bin/moc /usr/bin/moc
+   do
+     [ ! -x $i ] && continue
+     QT5_MOC=$i
+diff -Naur gcin-2.8.5/qt4-im/Makefile gcin-2.8.5.patch/qt4-im/Makefile
+--- gcin-2.8.5/qt4-im/Makefile	2012-03-05 20:26:54.000000000 +0800
++++ gcin-2.8.5.patch/qt4-im/Makefile	2017-04-09 21:29:08.402286847 +0800
+@@ -1,7 +1,8 @@
+ include ../config.mak
+ QT=qt4
+ QTIM=$(QT)/plugins/inputmethods
+-IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
++#IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
++IMMODULES=$(QT4_IM_DIR)
+ 
+ INCS=-I../im-client -I/usr/include/X11 `pkg-config QtCore QtGui --cflags`
+ CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT4 -DQT_SHARED \
 diff -Naur gcin-2.8.5/qt5-im/Makefile gcin-2.8.5.patch/qt5-im/Makefile
 --- gcin-2.8.5/qt5-im/Makefile	2015-10-17 10:08:40.000000000 +0800
-+++ gcin-2.8.5.patch/qt5-im/Makefile	2017-04-07 21:44:49.741815765 +0800
-@@ -3,7 +3,8 @@
++++ gcin-2.8.5.patch/qt5-im/Makefile	2017-04-09 21:26:00.358637716 +0800
+@@ -1,9 +1,11 @@
+ include ../config.mak
+ QT=qt5
  QTIM=$(QT)/plugins/platforminputcontexts
- IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
+-IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
++#IMMODULES=$(libdir)/$(DEB_BUILD_MULTIARCH)/$(QTIM)
++IMMODULES=$(QT5_IM_DIR)
  
 -INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport QtDBus --cflags`
 +#INCS=-I../im-client -I/usr/include/X11 `pkg-config Qt5Core Qt5Gui Qt5PlatformSupport QtDBus --cflags`
@@ -11,7 +52,7 @@ diff -Naur gcin-2.8.5/qt5-im/Makefile gcin-2.8.5.patch/qt5-im/Makefile
  MODVERSION=`pkg-config --modversion Qt5Gui`
  QTINC=`pkg-config --variable=includedir Qt5Gui`
  INCS+=-I$(QTINC)/QtGui/$(MODVERSION)/QtGui
-@@ -12,7 +13,8 @@
+@@ -12,7 +14,8 @@
  CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT5 -DQT_SHARED -DQT_IMMODULE -DPIC -DDEBUG="0$(GCIN_DEBUG)"
  OBJS= moc_gcin-qt5.o gcin-qt5.o gcin-imcontext-qt5.o moc_qgcinplatforminputcontext.o
  .SUFFIXES:	.c .cpp .a .so .E .h
@@ -21,9 +62,30 @@ diff -Naur gcin-2.8.5/qt5-im/Makefile gcin-2.8.5.patch/qt5-im/Makefile
  
  GCIN_QT5 = libgcinplatforminputcontextplugin.so
  
+@@ -37,7 +40,7 @@
+ 		install -m 755 $(GCIN_QT5) $(DESTDIR)/$(QT5_IM_DIR); \
+ 	else \
+ 		install -d $(IMMODULES); \
+-                install -m 755 $(GCIN_QT5) $(IMMODULES); \
++		install -m 755 $(GCIN_QT5) $(IMMODULES); \
+ 	fi
+ clean:
+ 	rm -f $(OBJS) $(GCIN_QT5) *~ core.* *moc*.cpp *.E .depend
 diff -Naur gcin-2.8.5/qt5-im/gcin-qt5.h gcin-2.8.5.patch/qt5-im/gcin-qt5.h
 --- gcin-2.8.5/qt5-im/gcin-qt5.h	2017-02-01 22:27:57.000000000 +0800
 +++ gcin-2.8.5.patch/qt5-im/gcin-qt5.h	2017-04-07 21:01:42.040166487 +0800
+@@ -9,7 +9,7 @@
+ {
+     Q_OBJECT
+ public:
+-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformInputContextFactoryInterface" FILE "gcin.json")
++    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QPlatformInputContextFactoryInterface.5.1" FILE "gcin.json")
+     QStringList keys() const;
+     QGcinPlatformInputContext *create(const QString& system, const QStringList& paramList);
+ };
+diff -Naur gcin-2.8.5/qt5-im/gcin-qt5.h.in gcin-2.8.5.patch/qt5-im/gcin-qt5.h.in
+--- gcin-2.8.5/qt5-im/gcin-qt5.h.in	2016-08-12 23:05:58.000000000 +0800
++++ gcin-2.8.5.patch/qt5-im/gcin-qt5.h.in	2017-04-09 21:30:53.502972908 +0800
 @@ -9,7 +9,7 @@
  {
      Q_OBJECT
