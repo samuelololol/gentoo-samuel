@@ -24,7 +24,7 @@ diff -Naur gcin-2.8.5/configure gcin-2.8.5.patch/configure
      QT5_MOC=$i
 diff -Naur gcin-2.8.5/qt4-im/Makefile gcin-2.8.5.patch/qt4-im/Makefile
 --- gcin-2.8.5/qt4-im/Makefile	2012-03-05 20:26:54.000000000 +0800
-+++ gcin-2.8.5.patch/qt4-im/Makefile	2017-04-09 21:29:08.402286847 +0800
++++ gcin-2.8.5.patch/qt4-im/Makefile	2017-04-09 21:47:24.177587771 +0800
 @@ -1,7 +1,8 @@
  include ../config.mak
  QT=qt4
@@ -35,9 +35,20 @@ diff -Naur gcin-2.8.5/qt4-im/Makefile gcin-2.8.5.patch/qt4-im/Makefile
  
  INCS=-I../im-client -I/usr/include/X11 `pkg-config QtCore QtGui --cflags`
  CXXFLAGS=$(OPTFLAGS) $(INCS) -Wall -D_REENTRANT -DUNIX=1 -fPIC  -DQT4 -DQT_SHARED \
+@@ -26,8 +27,8 @@
+ 		install -d $(DESTDIR)/$(QT4_IM_DIR); \
+ 		install -m 755 im-gcin.so $(DESTDIR)/$(QT4_IM_DIR); \
+ 	else \
+-		install -d $(IMMODULES); \
+-                install -m 755 im-gcin.so $(IMMODULES); \
++		install -d $(DESTDIR)/$(IMMODULES); \
++		install -m 755 im-gcin.so $(DESTDIR)/$(IMMODULES); \
+ 	fi
+ clean:
+ 	rm -f $(OBJS) im-gcin.so *~ core.* *moc*.cpp *.E .depend
 diff -Naur gcin-2.8.5/qt5-im/Makefile gcin-2.8.5.patch/qt5-im/Makefile
 --- gcin-2.8.5/qt5-im/Makefile	2015-10-17 10:08:40.000000000 +0800
-+++ gcin-2.8.5.patch/qt5-im/Makefile	2017-04-09 21:26:00.358637716 +0800
++++ gcin-2.8.5.patch/qt5-im/Makefile	2017-04-09 21:48:06.222062143 +0800
 @@ -1,9 +1,11 @@
  include ../config.mak
  QT=qt5
@@ -62,12 +73,14 @@ diff -Naur gcin-2.8.5/qt5-im/Makefile gcin-2.8.5.patch/qt5-im/Makefile
  
  GCIN_QT5 = libgcinplatforminputcontextplugin.so
  
-@@ -37,7 +40,7 @@
+@@ -36,8 +39,8 @@
+ 		install -d $(DESTDIR)/$(QT5_IM_DIR); \
  		install -m 755 $(GCIN_QT5) $(DESTDIR)/$(QT5_IM_DIR); \
  	else \
- 		install -d $(IMMODULES); \
+-		install -d $(IMMODULES); \
 -                install -m 755 $(GCIN_QT5) $(IMMODULES); \
-+		install -m 755 $(GCIN_QT5) $(IMMODULES); \
++		install -d $(DESTDIR)/$(IMMODULES); \
++		install -m 755 $(GCIN_QT5) $(DESTDIR)/$(IMMODULES); \
  	fi
  clean:
  	rm -f $(OBJS) $(GCIN_QT5) *~ core.* *moc*.cpp *.E .depend
