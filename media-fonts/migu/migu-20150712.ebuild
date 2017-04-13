@@ -7,6 +7,10 @@ inherit font
 DESCRIPTION="migu font collection"
 HOMEPAGE="http://mix-mplus-ipa.osdn.jp/migu/"
 #SRC_URI="https://github.com/samuelololol/gentoo-samuel/raw/master/media-fonts/${PN}/files/${P}.tbz2"
+SRC_URI="https://osdn.jp/projects/mix-mplus-ipa/downloads/63545/migu-1p-${PVR}.zip
+		 https://osdn.jp/projects/mix-mplus-ipa/downloads/63545/migu-1c-${PVR}.zip
+		 https://osdn.jp/projects/mix-mplus-ipa/downloads/63545/migu-1m-${PVR}.zip
+		 https://osdn.jp/projects/mix-mplus-ipa/downloads/63545/migu-2m-${PVR}.zip"
 
 LICENSE="IPA-1.1"
 SLOT="0"
@@ -18,8 +22,8 @@ FONT_S="${S}"
 FONT_SUFFIX="ttf"
 
 src_unpack() {
-	cp ${FILESDIR}/${P}.tbz2 .
-	tar jxf ${P}.tbz2
+	unpack ${A}
+	find . -name "*.${FONT_SUFFIX}" -exec cp {} . \;
 }
 
 src_install() {
