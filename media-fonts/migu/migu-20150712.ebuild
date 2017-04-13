@@ -19,9 +19,7 @@ FONT_SUFFIX="ttf"
 
 src_unpack() {
 	cp ${FILESDIR}/${P}.tbz2 .
-	if [ "${A}" != "" ]; then
-		unpack ${A}
-	fi
+	tar jxf ${P}.tbz2
 }
 
 src_install() {
