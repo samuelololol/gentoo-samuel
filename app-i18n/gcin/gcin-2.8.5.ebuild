@@ -32,6 +32,8 @@ RESTRICT="mirror"
 S=${WORKDIR}/${P/_/.}
 
 src_prepare() {
+ 	# fix bug 987654 by restoring pre-GCC5 inline semantics
+ 	append-cflags -std=gnu89
 	echo "${P}" > ${S}/VERSION.gcin
 	epatch "${FILESDIR}/gcin-2.8.5_qt.patch"
 }
