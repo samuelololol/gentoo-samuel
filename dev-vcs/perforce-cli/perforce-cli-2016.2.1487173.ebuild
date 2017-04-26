@@ -30,6 +30,6 @@ src_unpack() {
 src_install() {
 	dodir "/opt/${PN}"
 	cp p4 "${D}/opt/${PN}" || die "Install failed!"
-	dosym /opt/${PN}/${PN}/p4 /usr/local/bin/p4 || die "Broken symlink"
+	dosym /opt/${PN}/p4 /usr/local/bin/p4 || die "Broken symlink"
 }
 
