@@ -33,7 +33,7 @@ src_install() {
 	dodir "/opt/${PN}"
 	cp -R * "${D}/opt/${PN}" || die "Install failed!"
 
-	dosym /opt/${PN}/${PF}/bin/p4v /usr/local/bin/p4v
+	dosym /opt/${PN}/p4v-${PVR}/bin/p4v /usr/local/bin/p4v || die "Broken symlink"
 	dodir /etc/revdep-rebuild
 	echo "SEARCH_DIRS_MASK=\"/opt/${PN}\"" > "${ED}/etc/revdep-rebuild/50-perforce-gui"
 }
