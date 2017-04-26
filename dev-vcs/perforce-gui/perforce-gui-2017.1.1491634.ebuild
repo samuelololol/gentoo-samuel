@@ -14,7 +14,7 @@ SRC_URI="amd64? ( ftp://ftp.perforce.com/perforce/r${SHORTREL}/bin.linux26x86_64
 
 LICENSE="perforce"
 SLOT="0"
-KEYWORDS="-* ~amd6"
+KEYWORDS="-* ~amd64"
 IUSE=""
 RESTRICT="mirror strip test"
 
