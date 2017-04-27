@@ -29,8 +29,9 @@ src_unpack() {
 
 src_install() {
 	dodir "/opt/${PN}"
-	chmod 755 p4 || "change file mode failed"
-	cp p4 "${D}/opt/${PN}" || die "Install failed!"
+	insinto "/opt/${PN}"
+	exeinto "/opt/${PN}"
+	doexe p4  || die "Install failed!"
 	dosym /opt/${PN}/p4 /usr/local/bin/p4 || die "Broken symlink"
 }
 
