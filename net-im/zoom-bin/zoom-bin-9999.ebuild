@@ -37,6 +37,6 @@ src_unpack() {
 
 src_install() {
 	dodir -r "/opt/${MY_PN}"
-	cp -R "${S}/zoom/zoom" "${D}/opt/${MY_PN}" || die "Install fail"
+	cp -R "${S}/zoom" "${D}/opt/${MY_PN}" || die "Install fail"
 	dosym /opt/${MY_PN}/${MY_PN} /usr/local/bin/${MY_PN}
 }
