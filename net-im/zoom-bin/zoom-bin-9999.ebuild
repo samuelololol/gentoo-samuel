@@ -20,6 +20,9 @@ RDEPEND="
 	dev-qt/qtscript
 	dev-qt/qtwebengine[widgets]
 	dev-qt/qtwebchannel[qml]
+	dev-qt/qtquickcontrols
+	dev-qt/qtquickcontrols2
+	dev-qt/qtx11extras
 "
 DEPEND=""
 
@@ -34,6 +37,6 @@ src_unpack() {
 
 src_install() {
 	dodir -r "/opt/${MY_PN}"
-	cp -R "${S}" "${D}/opt/" || die "Install fail"
+	cp -R "${S}/zoom/zoom" "${D}/opt/${MY_PN}" || die "Install fail"
 	dosym /opt/${MY_PN}/${MY_PN} /usr/local/bin/${MY_PN}
 }
