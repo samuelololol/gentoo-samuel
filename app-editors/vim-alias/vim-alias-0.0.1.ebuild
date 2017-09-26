@@ -20,11 +20,15 @@ S="${WORKDIR}"
 
 src_install() {
 	#check if file already exist
-    elog "verify if target path conflict"
+    elog "verify if target path conflict ..."
 	[[ ! -f "${D}/usr/local/bin/vi" ]] || die "/usr/local/bin/vi exists!"
 	[[ ! -f "${D}/usr/local/bin/vim" ]] || die "/usr/local/bin/vim exists!"
 
 	#install scripts
-	cp "${FILESDIR}"/vi "${D}/usr/local/bin/vi" || die "Install vi fail"
-	cp "${FILESDIR}"/vim "${D}/usr/local/bin/vim" || die "Install vim fail"
+	elog "create folder /usr/local/bin ..."
+	dodir /usr/local/bin
+
+	elog "install scripts ..."
+	cp "${FILESDIR}"/vi "${D}usr/local/bin/" || die "Install vi fail"
+	cp "${FILESDIR}"/vim "${D}usr/local/bin/" || die "Install vim fail"
 }
