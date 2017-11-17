@@ -1,0 +1,26 @@
+#!/bin/bash
+source /etc/conf.d/selenithon.env
+SCREEN_W=""
+SCREEN_H=""
+SCREEN_D=""
+
+if [ ! -d ~/.virtualenvs/ ] && [ ! -L ~/.virtualenvs/ ]; then
+	echo ".virtualenvs is not exists"
+	exit 1
+fi
+
+if [ ! -d ${SELENITHON_VENVS_PATH} ] && [ ! -L ${SELENITHON_VENVS_PATH} ]; then
+	echo "~/.virtualenvs/'"$SELENITHON_VENVS_PATH"' is not exists"
+	exit 2
+fi
+
+[[ -n "$SELENITHON_SCREEN_WIDTH" ]] && export SCREEN_W=${SELENITHON_SCREEN_WIDTH}
+[[ -n "$SELENITHON_SCREEN_HEIGHT" ]] && export SCREEN_H=${SELENITHON_SCREEN_HEIGHT}
+[[ -n "$SELENITHON_SCREEN_DEPTH" ]] && export SCREEN_D=${SELENITHON_SCREEN_DEPTH}
+
+docker run --rm -t $(tty &>/dev/null && echo "-i") \
+        -e "SCREEN_WIDTH=${SCREEN_W}" \
+        -e "SCREEN_HEIGHT=${SCREEN_H}" \
+        -e "SCREEN_DEPTH=${SCREEN_D}" \
+	-v "${SELENITHON_VENVS_PATH}:/root/.virtualenvs/env" \
+	-v "$(pwd):/app" samuelololol/selenithon "$@"
