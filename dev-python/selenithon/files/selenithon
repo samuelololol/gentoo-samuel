@@ -22,5 +22,6 @@ docker run --rm -t $(tty &>/dev/null && echo "-i") \
         -e "SCREEN_WIDTH=${SCREEN_W}" \
         -e "SCREEN_HEIGHT=${SCREEN_H}" \
         -e "SCREEN_DEPTH=${SCREEN_D}" \
-	-v "${SELENITHON_VENVS_PATH}:/root/.virtualenvs/env" \
-	-v "$(pwd):/app" samuelololol/selenithon "$@"
+        -e "USER_ID=${USER_ID}" \
+        -v "${SELENITHON_VENVS_PATH}:/root/.virtualenvs/env" \
+        -v "$(pwd):/app" samuelololol/selenithon "$@"
