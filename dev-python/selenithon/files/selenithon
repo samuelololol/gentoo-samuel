@@ -5,8 +5,9 @@ SCREEN_H=""
 SCREEN_D=""
 
 if docker network ls -f name="$SELENITHON_DOCKER_NETWORK_NAME" | grep "$SELENITHON_DOCKER_NETWORK_NAME" > /dev/null 2>&1; then
-    echo '"$SELENITHON_DOCKER_NETWORK_NAME"exists'
+    echo 'docker network('"$SELENITHON_DOCKER_NETWORK_NAME"') exists'
 else
+    echo 'docker network('"$SELENITHON_DOCKER_NETWORK_NAME"') not exists'
     docker network create --driver bridge "$SELENITHON_DOCKER_NETWORK_NAME"
     echo 'create docker network: '"$SELENITHON_DOCKER_NETWORK_NAME"
 fi
