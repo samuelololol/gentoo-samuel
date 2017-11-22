@@ -4,14 +4,21 @@ SCREEN_W=""
 SCREEN_H=""
 SCREEN_D=""
 
+if docker network ls -f name="$SELENITHON_DOCKER_NETWORK_NAME" | grep "$SELENITHON_DOCKER_NETWORK_NAME" > /dev/null 2>&1; then
+    echo '"$SELENITHON_DOCKER_NETWORK_NAME"exists'
+else
+    docker network create --driver bridge "$SELENITHON_DOCKER_NETWORK_NAME"
+    echo 'create docker network: '"$SELENITHON_DOCKER_NETWORK_NAME"
+fi
+
 if [ ! -d ~/.virtualenvs/ ] && [ ! -L ~/.virtualenvs/ ]; then
-	echo ".virtualenvs is not exists"
-	exit 1
+    echo ".virtualenvs is not exists"
+    exit 1
 fi
 
 if [ ! -d ${SELENITHON_VENVS_PATH} ] && [ ! -L ${SELENITHON_VENVS_PATH} ]; then
-	echo "~/.virtualenvs/'"$SELENITHON_VENVS_PATH"' is not exists"
-	exit 2
+    echo "~/.virtualenvs/'"$SELENITHON_VENVS_PATH"' is not exists"
+    exit 2
 fi
 
 [[ -n "$SELENITHON_SCREEN_WIDTH" ]] && export SCREEN_W=${SELENITHON_SCREEN_WIDTH}
@@ -23,5 +30,6 @@ docker run --rm -t $(tty &>/dev/null && echo "-i") \
         -e "SCREEN_HEIGHT=${SCREEN_H}" \
         -e "SCREEN_DEPTH=${SCREEN_D}" \
         -e "USER_ID=${USER_ID}" \
+        --network "$SELENITHON_DOCKER_NETWORK_NAME" \
         -v "${SELENITHON_VENVS_PATH}:/root/.virtualenvs/env" \
         -v "$(pwd):/app" samuelololol/selenithon "$@"
