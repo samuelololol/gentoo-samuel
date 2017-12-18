@@ -38,5 +38,4 @@ pkg_pretend() {
 		ewarn "      <*>     Event interface"
 		echo
 	fi
-	./autogen.sh || die "./autogen.sh fail"
 }
