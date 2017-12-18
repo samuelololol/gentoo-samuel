@@ -23,7 +23,7 @@ DEPEND="${RDEPEND}
 DOCS=( "README" )
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-1.9.0.patch
+	"${FILESDIR}"/${PN}-1.9.0-3fingers.patch
 )
 
 pkg_pretend() {
