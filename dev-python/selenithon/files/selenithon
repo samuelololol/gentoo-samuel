@@ -1,5 +1,5 @@
 #!/bin/bash
-source /etc/conf.d/selenithon1.env
+source /etc/conf.d/selenithon.env
 
 # check .virtualenv
 if [ ! -d ~/.virtualenvs/ ] && [ ! -L ~/.virtualenvs/ ]; then
