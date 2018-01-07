@@ -1,9 +1,51 @@
 #!/bin/bash
-source /etc/conf.d/selenithon.env
+source /etc/conf.d/selenithon1.env
+
+# check .virtualenv
+if [ ! -d ~/.virtualenvs/ ] && [ ! -L ~/.virtualenvs/ ]; then
+    echo ".virtualenvs is not exists"
+    exit 1
+fi
+if [ ! -d ${SELENITHON_VENVS_PATH} ] && [ ! -L ${SELENITHON_VENVS_PATH} ]; then
+    echo "~/.virtualenvs/'"$SELENITHON_VENVS_PATH"' is not exists"
+    exit 2
+fi
+
 SCREEN_W=""
 SCREEN_H=""
 SCREEN_D=""
+[[ -n "$SELENITHON_SCREEN_WIDTH" ]] && export SCREEN_W=${SELENITHON_SCREEN_WIDTH}
+[[ -n "$SELENITHON_SCREEN_HEIGHT" ]] && export SCREEN_H=${SELENITHON_SCREEN_HEIGHT}
+[[ -n "$SELENITHON_SCREEN_DEPTH" ]] && export SCREEN_D=${SELENITHON_SCREEN_DEPTH}
 
+RAND_PREFIX=$(head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 26 | head -n 1)
+RAND_PREACTIVATE_FILENAME="/tmp/selenithon/"$RAND_PREFIX"_preactivate"
+RAND_ACTIVATE_FILENAME="/tmp/selenithon/"$RAND_PREFIX"_activate"
+RAND_PIP_FILENAME="/tmp/selenithon/"$RAND_PREFIX"_pip"
+
+mkdir -p /tmp/selenithon
+cp "$SELENITHON_VENVS_PATH"/bin/preactivate "$RAND_PREACTIVATE_FILENAME"
+cp "$SELENITHON_VENVS_PATH"/bin/activate "$RAND_ACTIVATE_FILENAME"
+cp "$SELENITHON_VENVS_PATH"/bin/pip "$RAND_PIP_FILENAME"
+
+# prepare variables
+export NAME=$(grep -o -P "(?<=VIRTUAL_ENV=\"\/Users\/)\w.+(?=\/\.)|(?<=VIRTUAL_ENV=\"\/home\/)\w.+(?=\/\.)"       $RAND_ACTIVATE_FILENAME)
+export HOSTENVNAME=$(grep -o -P '(?<=\/.virtualenvs\/)\w+' $RAND_ACTIVATE_FILENAME)
+export HOSTHOMEPATH=$(grep -o -P "(?<=\#\!).+(?=\/\.virtualenvs)" $RAND_PIP_FILENAME)
+export SHELLNAME=$(head -n 1 "$RAND_PREACTIVATE_FILENAME" | awk -F "/" '{print $NF}')
+
+# replace string in /tmp/selenithon/*
+# 1. change user shell to bash
+sed -i -e 's@'"$SHELLNAME"'@bash@g' $RAND_PREACTIVATE_FILENAME 2>&1
+# 2. change env path
+sed -i -e 's@VIRTUAL_ENV="\/home\/'"$NAME"'@VIRTUAL_ENV="\/root@g' $RAND_ACTIVATE_FILENAME
+sed -i -e 's@VIRTUAL_ENV="\/Users\/'"$NAME"'@VIRTUAL_ENV="\/root@g' $RAND_ACTIVATE_FILENAME
+sed -i -e 's@'"$HOSTHOMEPATH"'@\/root@g' $RAND_PIP_FILENAME
+# 3. change env path
+sed -i -e 's@\.virtualenvs\/'"$HOSTENVNAME"'@\.virtualenvs\/env@g' $RAND_ACTIVATE_FILENAME
+sed -i -e 's@\.virtualenvs\/'"$HOSTENVNAME"'@\.virtualenvs\/env@g' $RAND_PIP_FILENAME
+
+# handle docker network, create if not exists
 if docker network ls -f name="$SELENITHON_DOCKER_NETWORK_NAME" | grep "$SELENITHON_DOCKER_NETWORK_NAME" > /dev/null 2>&1; then
     echo 'docker network('"$SELENITHON_DOCKER_NETWORK_NAME"') exists'
 else
@@ -12,20 +54,6 @@ else
     echo 'create docker network: '"$SELENITHON_DOCKER_NETWORK_NAME"
 fi
 
-if [ ! -d ~/.virtualenvs/ ] && [ ! -L ~/.virtualenvs/ ]; then
-    echo ".virtualenvs is not exists"
-    exit 1
-fi
-
-if [ ! -d ${SELENITHON_VENVS_PATH} ] && [ ! -L ${SELENITHON_VENVS_PATH} ]; then
-    echo "~/.virtualenvs/'"$SELENITHON_VENVS_PATH"' is not exists"
-    exit 2
-fi
-
-[[ -n "$SELENITHON_SCREEN_WIDTH" ]] && export SCREEN_W=${SELENITHON_SCREEN_WIDTH}
-[[ -n "$SELENITHON_SCREEN_HEIGHT" ]] && export SCREEN_H=${SELENITHON_SCREEN_HEIGHT}
-[[ -n "$SELENITHON_SCREEN_DEPTH" ]] && export SCREEN_D=${SELENITHON_SCREEN_DEPTH}
-
 docker run --rm -t $(tty &>/dev/null && echo "-i") \
         -e "SCREEN_WIDTH=${SCREEN_W}" \
         -e "SCREEN_HEIGHT=${SCREEN_H}" \
@@ -33,4 +61,7 @@ docker run --rm -t $(tty &>/dev/null && echo "-i") \
         -e "USER_ID=${USER_ID}" \
         --network "$SELENITHON_DOCKER_NETWORK_NAME" \
         -v "${SELENITHON_VENVS_PATH}:/root/.virtualenvs/env" \
+        -v "${RAND_PREACTIVATE_FILENAME}:/root/.virtualenvs/env/bin/preactivate" \
+        -v "${RAND_ACTIVATE_FILENAME}:/root/.virtualenvs/env/bin/activate" \
+        -v "${RAND_PIP_FILENAME}:/root/.virtualenvs/env/bin/pip" \
         -v "$(pwd):/app" samuelololol/selenithon "$@"
