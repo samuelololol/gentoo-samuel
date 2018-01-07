@@ -65,3 +65,8 @@ docker run --rm -t $(tty &>/dev/null && echo "-i") \
         -v "${RAND_ACTIVATE_FILENAME}:/root/.virtualenvs/env/bin/activate" \
         -v "${RAND_PIP_FILENAME}:/root/.virtualenvs/env/bin/pip" \
         -v "$(pwd):/app" samuelololol/selenithon "$@"
+
+# clean up
+rm -rf "$RAND_PREACTIVATE_FILENAME"
+rm -rf "$RAND_ACTIVATE_FILENAME"
+rm -rf "$RAND_PIP_FILENAME"
