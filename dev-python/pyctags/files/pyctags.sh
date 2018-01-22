@@ -1,5 +1,15 @@
 #!/bin/bash
-SITE_PKG=$(python -c 'from distutils.sysconfig import get_python_lib; print get_python_lib()')
+SITE_PKG=""
+while getopts ":s" opt; do
+    case "$opt" in
+        s)
+            SITE_PKG=$(python -c 'from distutils.sysconfig import get_python_lib; print get_python_lib()')
+            SITE_PKG="$SITE_PKG/*.py"
+            echo "Include site-packages: "$SITE_PKG
+            ;;
+    esac
+done
+
 
 if [ ! -f ~/.ctagsignore ]; then
     echo ".git
@@ -17,7 +27,10 @@ ctags \
 --kinds-python=+v \
 --exclude=@$HOME/.ctagsignore \
 --extra=+q \
-$SITE_PKG \
-$@
+$(pwd) \
+$SITE_PKG
+
 # replace leading "!_TAG_*" lines
 sed -i '/^\!_TAG.*/d' tags
+sed -i '/^\ \ .*/d' tags
+sed -i '/^\s*$/d' tags
