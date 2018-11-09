@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-inherit qmake-utils gnome2-utils fdo-mime
+inherit gnome2-utils cmake-utils xdg-utils
 
 DESCRIPTION="Offline documentation browser inspired by Dash"
 HOMEPAGE="https://zealdocs.org/"
@@ -22,6 +22,7 @@ DEPEND="
 	dev-qt/qtwebkit:5
 	dev-qt/qtwidgets:5
 	dev-qt/qtx11extras:5
+	kde-frameworks/extra-cmake-modules:5
 	>=x11-libs/xcb-util-keysyms-0.3.9
 "
 
@@ -30,24 +31,16 @@ RDEPEND="
 	x11-themes/hicolor-icon-theme
 "
 
-src_configure() {
-	eqmake5 PREFIX="${EPREFIX}/usr"
-}
-
-src_install() {
-	emake INSTALL_ROOT="${D}" PREFIX="${EPREFIX}/usr" install
-}
-
 pkg_preinst() {
 	gnome2_icon_savelist
 }
 
 pkg_postinst() {
 	gnome2_icon_cache_update
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 }
 
 pkg_postrm() {
 	gnome2_icon_cache_update
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 }
