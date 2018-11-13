@@ -9,7 +9,6 @@ MY_PN=${PN/-bin/}
 DESCRIPTION="Official desktop client for ZOOM (binary package)"
 HOMEPAGE="https://zoom.us/"
 SRC_URI="
-	x86? ( https://zoom.us/client/latest/zoom_i686.tar.xz )
 	amd64? ( https://zoom.us/client/latest/zoom_x86_64.tar.xz )
 "
 LICENSE="zoom"
