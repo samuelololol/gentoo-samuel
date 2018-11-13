@@ -22,6 +22,8 @@ RDEPEND="
 	dev-qt/qtquickcontrols
 	dev-qt/qtquickcontrols2
 	dev-qt/qtx11extras
+	dev-libs/quazip
+	dev-libs/icu
 "
 DEPEND=""
 
