@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -21,6 +21,7 @@ IUSE="custom-jdk"
 # RDEPENDS may cause false positives in repoman.
 # clion requires cmake and gdb at runtime to build and debug C/C++ projects
 RDEPEND="
+	dev-libs/libdbusmenu
 	dev-util/cmake
 	sys-devel/gdb
 	!custom-jdk? ( virtual/jdk )"
@@ -39,7 +40,6 @@ src_prepare() {
 	)
 
 	use amd64 || remove_me+=( bin/fsnotifier64 lib/pty4j-native/linux/x86_64)
-	use arm || remove_me+=( bin/fsnotifier-arm )
 	use x86 || remove_me+=( bin/fsnotifier lib/pty4j-native/linux/x86)
 
 	use custom-jdk || remove_me+=( jbr )
