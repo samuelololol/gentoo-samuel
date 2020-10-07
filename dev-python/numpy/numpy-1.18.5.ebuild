@@ -3,11 +3,12 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6,7,8} )
+PYTHON_COMPAT=( python3_{6..9} )
 PYTHON_REQ_USE="threads(+)"
-DISTUTILS_USE_SETUPTOOLS=rdepend
 
 FORTRAN_NEEDED=lapack
+
+DISTUTILS_USE_SETUPTOOLS=rdepend
 
 inherit distutils-r1 flag-o-matic fortran-2 multiprocessing toolchain-funcs
 
@@ -23,25 +24,32 @@ SRC_URI="
 	)"
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 s390 sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~x64-solaris ~x86-solaris"
-IUSE="doc lapack test"
-RESTRICT="!test? ( test )"
+KEYWORDS="~alpha amd64 arm arm64 hppa ~ia64 ~mips ppc ~ppc64 ~s390 sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~x64-solaris ~x86-solaris"
+IUSE="doc lapack"
 
 RDEPEND="
 	lapack? (
 		>=virtual/cblas-3.8
 		>=virtual/lapack-3.8
-	)"
-DEPEND="${RDEPEND}"
-BDEPEND="app-arch/unzip
+	)
+"
+BDEPEND="
+	${RDEPEND}
+	app-arch/unzip
+	>=dev-python/cython-0.29.15[${PYTHON_USEDEP}]
 	lapack? ( virtual/pkgconfig )
 	test? (
-		dev-python/pytest[${PYTHON_USEDEP}]
-	)"
+		>=dev-python/hypothesis-5.8.0[${PYTHON_USEDEP}]
+		>=dev-python/pytz-2019.3[${PYTHON_USEDEP}]
+		>=dev-python/cffi-1.14.0[${PYTHON_USEDEP}]
+	)
+"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.17.4-no-hardcode-blasv2.patch
 )
+
+distutils_enable_tests pytest
 
 src_unpack() {
 	default
@@ -126,7 +134,7 @@ python_install() {
 }
 
 python_install_all() {
-	local DOCS=( THANKS.txt )
+	local DOCS=( LICENSE.txt README.md THANKS.txt )
 
 	if use doc; then
 		local HTML_DOCS=( "${WORKDIR}"/html/. )
